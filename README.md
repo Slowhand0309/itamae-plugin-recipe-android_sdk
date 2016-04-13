@@ -21,7 +21,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+#### android_sdk::system
+
+Install for shared users.
+
+* recipe
+
+```ruby
+include_recipe 'android_sdk::system'
+```
+
+* node.json
+
+```json
+{
+  "sdk": {
+    "version" : "r24.4.1",
+    "install_path" : "/hoge"
+  }
+}
+```
+
+Default install path `/usr/local`, if not set 'install_path'
+
 
 ## License
 
