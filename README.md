@@ -1,5 +1,6 @@
 # Itamae::Plugin::Recipe::AndroidSdk
 
+Require JDK.
 
 ## Installation
 
@@ -43,6 +44,22 @@ include_recipe 'android_sdk::system'
 ```
 
 Default install path `/usr/local`, if not set 'install_path'
+
+#### android sdk update
+
+Update Android SDK at like node.json following:
+
+```json
+{
+  "sdk": {
+    ...
+    "update_list" : [
+      "build-tools-23.0.3",
+      "android-22"
+    ]
+  }
+}
+```
 
 
 ## License

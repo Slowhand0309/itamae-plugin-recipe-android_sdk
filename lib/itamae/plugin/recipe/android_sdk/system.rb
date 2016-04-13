@@ -4,12 +4,7 @@
 include_recipe 'android_sdk::dependency'
 
 # Install path.
-if node[:sdk][:install_path]
-  INSTALL_DIR = node[:sdk][:install_path]
-else
-  # Default.
-  INSTALL_DIR = '/usr/local'.freeze
-end
+node[:sdk][:install_path] ||= '/usr/local'
 
 TEMP_DIR = '/tmp/android_sdk'.freeze
 
@@ -17,10 +12,10 @@ TEMP_DIR = '/tmp/android_sdk'.freeze
 case node[:platform]
 when 'osx', 'darwin'
   ANDROID_SDK_ARCHIVE = "android-sdk_#{node[:sdk][:version]}-macosx.zip".freeze
-  ANDROID_SDK_DIR = 'android-sdk-macosx'.freeze
+  node[:sdk][:directory] = 'android-sdk-macosx'.freeze
 else
   ANDROID_SDK_ARCHIVE = "android-sdk_#{node[:sdk][:version]}-linux.tgz".freeze
-  ANDROID_SDK_DIR = 'android-sdk-linux'.freeze
+  node[:sdk][:directory] = 'android-sdk-linux'.freeze
 end
 
 # Android SDK download URL.
@@ -38,11 +33,16 @@ execute "wget #{ANDROID_SDK_URL} -O #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE}" do
 end
 
 # Extract.
-execute "tar xvf #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE} -C #{INSTALL_DIR}" do
-  not_if "test -d #{INSTALL_DIR}/#{ANDROID_SDK_DIR}"
+execute "tar xvf #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE} -C #{node[:sdk][:install_path]}" do
+  not_if "test -d #{node[:sdk][:install_path]}/#{node[:sdk][:directory]}"
 end
 
 # Set 'ANDROID_HOME'
-execute "echo 'export ANDROID_HOME=#{INSTALL_DIR}/#{ANDROID_SDK_DIR}' >> /etc/profile" do
+execute "echo 'export ANDROID_HOME=#{node[:sdk][:install_path]}/#{node[:sdk][:directory]}' >> /etc/profile" do
   user "root"
+end
+
+# Update sdk list.
+if node[:sdk][:update_list]
+  include_recipe 'android_sdk::update_sdk'
 end
