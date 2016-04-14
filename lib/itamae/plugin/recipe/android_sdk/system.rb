@@ -33,7 +33,14 @@ execute "wget #{ANDROID_SDK_URL} -O #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE}" do
 end
 
 # Extract.
-execute "tar xvf #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE} -C #{node[:sdk][:install_path]}" do
+case node[:platform]
+when 'osx', 'darwin'
+  cmd = "unzip #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE} -d #{node[:sdk][:install_path]}"
+else
+  cmd = "tar xvf #{TEMP_DIR}/#{ANDROID_SDK_ARCHIVE} -C #{node[:sdk][:install_path]}"
+end
+
+execute cmd do
   not_if "test -d #{node[:sdk][:install_path]}/#{node[:sdk][:directory]}"
 end
 

@@ -1,2 +1,12 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'itamae/plugin/recipe/android_sdk'
+# encoding: utf-8
+require 'serverspec'
+require 'net/ssh'
+
+set :backend, :ssh
+
+host = ENV['TARGET_HOST']
+options = Net::SSH::Config.for(host)
+options[:user] ||= 'vagrant'
+
+set :host,        options[:host_name] || host
+set :ssh_options, options
