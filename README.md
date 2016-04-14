@@ -22,14 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-#### android_sdk::system
+#### android_sdk::install
 
-Install for shared users.
+Install Android SDK.
 
 * recipe
 
 ```ruby
-include_recipe 'android_sdk::system'
+include_recipe 'android_sdk::install'
 ```
 
 * node.json
