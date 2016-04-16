@@ -2,9 +2,9 @@
 
 Require JDK.
 
-## Installation
+[![Gem Version](https://badge.fury.io/rb/itamae-plugin-recipe-android_sdk.svg)](https://badge.fury.io/rb/itamae-plugin-recipe-android_sdk)
 
-※ **Not yet published in 'RubyGems.org'**
+## Installation
 
 Add this line to your application's Gemfile:
 
