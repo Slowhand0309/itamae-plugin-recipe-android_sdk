@@ -3,8 +3,13 @@
 # Run dependency.
 include_recipe 'android_sdk::dependency'
 
+node[:sdk] ||= {}
+
 # Install path.
 node[:sdk][:install_path] ||= '/usr/local'
+
+# Default sdk version.
+node[:sdk][:version] ||= 'r24.4.1'
 
 TEMP_DIR = '/tmp/android_sdk'.freeze
 
@@ -47,6 +52,7 @@ end
 # Set 'ANDROID_HOME'
 execute "echo 'export ANDROID_HOME=#{node[:sdk][:install_path]}/#{node[:sdk][:directory]}' >> /etc/profile" do
   user "root"
+  not_if "grep -qs ANDROID_HOME /etc/profile"
 end
 
 # Update sdk list.
