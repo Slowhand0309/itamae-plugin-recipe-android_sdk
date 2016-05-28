@@ -45,7 +45,7 @@ include_recipe 'android_sdk::install'
 
 Default install path `/usr/local`, if not set 'install_path'
 
-#### android sdk update
+#### android sdk update with filter
 
 Update Android SDK at like node.json following:
 
@@ -61,6 +61,29 @@ Update Android SDK at like node.json following:
 }
 ```
 
+e.g.
+```
+$ itamae ssh --vagrant --node-json node.json android_sdk.rb
+```
+
+#### android sdk update latest
+
+Install Android SDK and update without filter.
+
+* recipe
+
+```ruby
+include_recipe 'android_sdk::latest'
+```
+
+It is the same with the following command:
+
+```sh
+$ android update sdk -u
+```
+
+※ Caution<br>
+It takes long time :sob:
 
 ## License
 

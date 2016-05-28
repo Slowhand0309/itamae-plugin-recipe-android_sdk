@@ -4,6 +4,7 @@ ANDROID_SDK_ROOT = "#{node[:sdk][:install_path]}/#{node[:sdk][:directory]}"
 
 # Interactive android sdk update shell.
 TEMPLATE_SRC_PATH = "#{File.expand_path('../../', __FILE__)}/templates/android-update-sdk.sh.erb"
+TEMPLATE_LATEST_SRC_PATH = "#{File.expand_path('../../', __FILE__)}/templates/android-update-sdk-latest.sh.erb"
 TEMPLATE_DEST_PATH = "#{ANDROID_SDK_ROOT}/tools/android-update-sdk.sh"
 
 case node[:platform]
@@ -13,12 +14,19 @@ else
   package 'expect'
 end
 
-template TEMPLATE_DEST_PATH do
-  mode "0755"
-  source TEMPLATE_SRC_PATH
+src_path = TEMPLATE_LATEST_SRC_PATH
+update_list = ''
+
+if node[:sdk][:update_list]
+  # Filter by user.
+  src_path = TEMPLATE_SRC_PATH
+  update_list = node[:sdk][:update_list].join(',')
 end
 
-update_list = node[:sdk][:update_list].join(',')
+template TEMPLATE_DEST_PATH do
+  mode "0755"
+  source src_path
+end
 
 # Prepare.
 case node[:platform]

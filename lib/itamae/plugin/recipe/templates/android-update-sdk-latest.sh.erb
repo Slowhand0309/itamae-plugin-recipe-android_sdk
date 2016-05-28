@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+expect -c "
+    set timeout -1
+    spawn <%= "#{node[:sdk][:install_path]}/#{node[:sdk][:directory]}" %>/tools/android update sdk -u
+    expect {
+        \"Do you accept the license\" {
+            send \"y\n\"
+            exp_continue
+        }
+        Downloading {
+            exp_continue
+        }
+        Installing {
+            exp_continue
+        }
+    }
+"
